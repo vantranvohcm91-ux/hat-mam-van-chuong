@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
+const MODEL_NAME = 'gemini-1.5-flash';
 
 dotenv.config();
 
@@ -130,7 +131,7 @@ parts.push({
 });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: MODEL_NAME,
       contents: { parts },
       config: {
         systemInstruction: HAT_MAM_PERSONA,
@@ -189,7 +190,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     }));
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: MODEL_NAME,
       contents: formattedContents,
       config: {
         systemInstruction: HAT_MAM_PERSONA + contextNote + `
@@ -250,7 +251,7 @@ Hãy trả về định dạng JSON với cấu trúc:
 Chỉ trả về JSON hợp lệ. Không viết thành cả đoạn văn hoàn chỉnh.`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
+      model: MODEL_NAME,
       contents: prompt,
       config: {
         systemInstruction: HAT_MAM_PERSONA,
