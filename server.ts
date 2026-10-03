@@ -130,7 +130,7 @@ parts.push({
 });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-3.7-flash',
       contents: { parts },
       config: {
         systemInstruction: HAT_MAM_PERSONA,
