@@ -113,26 +113,21 @@ QUY TẮC BẮT BUỘC:
 
     const parts: any[] = [];
 
-    if (image) {
-      // Clean base64 header if present
-      const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
-      parts.push({
-        inlineData: {
-          mimeType: mimeType || 'image/jpeg',
-          data: base64Data,
-        },
-      });
+if (image) {
+  const base64Data = image.replace(/^data:image\/\w+;base64,/, '');
+  parts.push({
+    inlineData: {
+      mimeType: mimeType || 'image/jpeg',
+      data: base64Data,
     }
+  });
+}
 
-    if (content) {
-      parts.push({
-        text: `Nội dung bài viết học sinh nhập vào:\n"""\n${content}\n"""\n\n${promptText}`,
-      });
-    } else {
-      parts.push({
-        text: `Dưới đây là ảnh chụp bài viết tay của học sinh. Hãy đọc chữ viết tay và thực hiện phân tích:\n${promptText}`,
-      });
-    }
+parts.push({
+  text: content 
+    ? `Nội dung bài viết học sinh nhập vào:\n"""\n${content}\n"""\n\n${promptText}`
+    : `Dưới đây là ảnh chụp bài viết tay của học sinh. Hãy đọc chữ viết tay từ ảnh và thực hiện phân tích đầy đủ các yêu cầu sau:\n${promptText}`
+});
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.0-flash',
