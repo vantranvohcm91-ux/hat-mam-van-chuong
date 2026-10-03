@@ -130,7 +130,7 @@ parts.push({
 });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-3.5-flash',
       contents: { parts },
       config: {
         systemInstruction: HAT_MAM_PERSONA,
@@ -189,7 +189,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     }));
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-3.5-flash',
       contents: formattedContents,
       config: {
         systemInstruction: HAT_MAM_PERSONA + contextNote + `
@@ -250,7 +250,7 @@ Hãy trả về định dạng JSON với cấu trúc:
 Chỉ trả về JSON hợp lệ. Không viết thành cả đoạn văn hoàn chỉnh.`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-3.5-flash',
       contents: prompt,
       config: {
         systemInstruction: HAT_MAM_PERSONA,
