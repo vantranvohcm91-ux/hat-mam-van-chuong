@@ -144,15 +144,27 @@ QUY TẮC BẮT BUỘC:
     });
 
     const responseText = response.text || '{}';
-    let parsedData;
-    try {
-      parsedData = JSON.parse(responseText);
-    } catch {
-      // Fallback if formatting contains markdown backticks
-      const cleanJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-      parsedData = JSON.parse(cleanJson);
-    }
-
+let parsedData;
+try {
+  // Làm sạch tự động các định dạng bọc ngoài nếu có
+  let cleanJson = responseText.trim();
+  if (cleanJson.startsWith('```')) {
+    cleanJson = cleanJson.replace(/^```[a-z]*\n?/i, '').replace(/```$/, '').trim();
+  }
+  parsedData = JSON.parse(cleanJson);
+} catch (parseError) {
+  console.error('JSON Parse Error:', responseText);
+  // Trả về cấu trúc mặc định an toàn để không bị sập app
+  parsedData = {
+    transcribedText: "Hạt mầm đã đọc được ảnh bài viết của bạn nhưng cấu trúc phản hồi cần thêm một chút. Bạn thử gửi lại nhé!",
+    praisePoints: ["Chữ viết tay của bạn rất rõ ràng và sạch sẽ!"],
+    correctionFeedback: { spelling: [], wordChoice: [], sentenceStructure: [] },
+    upgradeSuggestions: [],
+    emotionTips: "Hãy cố gắng phát huy thêm cảm xúc chân thật vào bài viết nhé.",
+    gdptChecklist: { structure: "", sensoryDetails: "", figurativeDevices: "", wordCountEstimate: "" },
+    encouragementMessage: "Hạt mầm luôn ở đây đồng hành cùng bạn!"
+  };
+}
     res.json(parsedData);
   } catch (error: any) {
     console.error('Error analyzing essay:', error);
